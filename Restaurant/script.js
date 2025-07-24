@@ -177,3 +177,70 @@ window.addEventListener("scroll",function(){
     let offset = window.pageYOffset;
     Parallax.style.backgroundPositionY = offset*0.7+"px";
 });
+
+const reservationForm = document.querySelector('#reservation_tbl form');
+const bookNowBtn = document.querySelector('#reservation_tbl form button');
+
+bookNowBtn.addEventListener('click', function(e) {
+    e.preventDefault(); 
+
+    const nameInput = document.querySelector('input[placeholder="Name"]');
+    const contactInput = document.querySelector('input[placeholder="Contact"]');
+    const emailInput = document.querySelector('input[placeholder="Email"]');
+    const personsInput = document.querySelector('input[placeholder="Number of Persons"]');
+    const dateInput = document.querySelector('input[type="date"]');
+    const timeInput = document.querySelector('input[placeholder="Your Time"]');
+
+    const name = nameInput.value.trim();
+    const contact = contactInput.value.trim();
+    const email = emailInput.value.trim();
+    const persons = personsInput.value.trim();
+    const date = dateInput.value.trim();
+    const time = timeInput.value.trim();
+
+    const nameRegex = /^[a-zA-Z\s]+$/;
+    const contactRegex = /^\d{10}$/; 
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+    if (!nameRegex.test(name)) {
+        alert("Please enter a valid name (letters and spaces only).");
+        return;
+    }
+
+    if (!contactRegex.test(contact)) {
+        alert("Please enter a valid 10-digit contact number.");
+        return;
+    }
+
+    if (!emailRegex.test(email)) {
+        alert("Please enter a valid email address.");
+        return;
+    }
+
+    if (persons === "" || parseInt(persons) <= 0) {
+        alert("Please enter a valid number of persons.");
+        return;
+    }
+
+    if (date === "") {
+        alert("Please select a date for your booking.");
+        return;
+    }
+
+    const today = new Date();
+    const selectedDate = new Date(date);
+    today.setHours(0, 0, 0, 0); 
+
+    if (selectedDate < today) {
+        alert("Please select a future date for your booking.");
+        return;
+    }
+
+    if (time === "") {
+        alert("Please enter a time for your booking.");
+        return;
+    }
+    
+    alert('Booking is successful!');
+    reservationForm.reset();
+});
